@@ -91,32 +91,22 @@ class Ws:
 
                         agent = self.colors.get_agent_from_uuid(self.player_data[message['puuid']]['agent'].lower())
                         name = f"{message['game_name']}#{message['game_tag']}"
-                        if self.player_data[message['puuid']]['streamer_mode'] and self.hide_names and message['puuid'] not in self.player_data["ignore"]:
-                            self.print_message(f"{chat_prefix} {color(self.colors.escape_ansi(agent), clr)}: {message['body']}")
-                            self.server.send_payload("chat",{
-                                "time": message["time"],
-                                "puuid": player,
-                                "self": message["puuid"] == self.Requests.puuid,
-                                "group":re.sub("\[|\]","",self.colors.escape_ansi(chat_prefix)),
-                                "agent": self.colors.escape_ansi(agent),
-                                "text": message['body']
-                            })
+                        # Always show player names regardless of streamer mode
+                        if agent == "":
+                            agent_str = ""
                         else:
-                            if agent == "":
-                                agent_str = ""
-                            else:
-                                agent_str = f" ({agent})"
-                            self.print_message(f"{chat_prefix} {color(name, clr)}{agent_str}: {message['body']}")
-                            self.server.send_payload("chat",{
-                                "time": message["time"],
-                                "puuid": player,
-                                "self": message["puuid"] == self.Requests.puuid,
-                                "group": re.sub("\[|\]","",self.colors.escape_ansi(
-		                                chat_prefix)),
-                                "player": name,
-                                "agent": self.colors.escape_ansi(agent),
-                                "text": message['body']
-                            })
+                            agent_str = f" ({agent})"
+                        self.print_message(f"{chat_prefix} {color(name, clr)}{agent_str}: {message['body']}")
+                        self.server.send_payload("chat",{
+                            "time": message["time"],
+                            "puuid": player,
+                            "self": message["puuid"] == self.Requests.puuid,
+                            "group": re.sub("\[|\]","",self.colors.escape_ansi(
+                                chat_prefix)),
+                            "player": name,
+                            "agent": self.colors.escape_ansi(agent),
+                            "text": message['body']
+                        })
                         self.id_seen.append(message['id'])
 
     def print_message(self, message):

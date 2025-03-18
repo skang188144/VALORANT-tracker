@@ -344,35 +344,15 @@ try:
                                         ):
                                             times += 1
                                             m_set += (m["match_id"],)
-                                    if player["PlayerIdentity"]["Incognito"] == False:
-                                        already_played_with.append(
-                                            {
-                                                "times": times,
-                                                "name": curr_player_stat["name"],
-                                                "agent": curr_player_stat["agent"],
-                                                "time_diff": time.time()
-                                                - curr_player_stat["epoch"],
-                                            }
-                                        )
-                                    else:
-                                        if player["TeamID"] == allyTeam:
-                                            team_string = "your"
-                                        else:
-                                            team_string = "enemy"
-                                        already_played_with.append(
-                                            {
-                                                "times": times,
-                                                "name": agent_dict[
-                                                    player["CharacterID"].lower()
-                                                ]
-                                                + " on "
-                                                + team_string
-                                                + " team",
-                                                "agent": curr_player_stat["agent"],
-                                                "time_diff": time.time()
-                                                - curr_player_stat["epoch"],
-                                            }
-                                        )
+                                    already_played_with.append(
+                                        {
+                                            "times": times,
+                                            "name": curr_player_stat["name"],
+                                            "agent": curr_player_stat["agent"],
+                                            "time_diff": time.time()
+                                            - curr_player_stat["epoch"],
+                                        }
+                                    )
 
                         party_icon = ""
                         # set party premade icon
